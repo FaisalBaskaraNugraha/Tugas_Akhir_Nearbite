@@ -23,7 +23,6 @@ class RestaurantService {
     } catch (_) {
       statusCode = 500;
     }
-    // e.message sudah String?, langsung kirim ke fromStatusCode
     return ApiErrorMapper.fromStatusCode(statusCode, message: e.message);
   }
 
@@ -156,17 +155,42 @@ class RestaurantService {
   }
 
   // 
-  // METHOD: getRestaurantDetail()
+  // METHOD: getRestaurantDetail() - DIPERBAIKI
+  // CARA KERJA:
+  // 1. Cek apakah ID valid (tidak kosong)
+  // 2. Gunakan maybeSingle() agar tidak error jika data tidak ditemukan
+  // 3. Jika response null, throw exception "Restoran tidak ditemukan"
+  // 4. Pastikan menu_items selalu berupa List (jika null, jadikan [])
+  // 5. Kembalikan Map<String, dynamic>
+  // 6. Semua error dikonversi ke ApiError
   // 
   Future<Map<String, dynamic>> getRestaurantDetail(String restaurantId) async {
     try {
+      // Step 1: Validasi ID
+      if (restaurantId.isEmpty) {
+        throw Exception('ID restoran tidak valid');
+      }
+
+      // Step 2: Query dengan maybeSingle
       final response = await _supabase
           .from('restaurants')
           .select('*, menu_items(*)')
           .eq('id', restaurantId)
-          .single();
+          .maybeSingle();
 
+      // Step 3: Cek apakah data ditemukan
+      if (response == null) {
+        throw Exception('Restoran tidak ditemukan');
+      }
+
+      // Step 4: Pastikan menu_items selalu List
+      if (response['menu_items'] == null) {
+        response['menu_items'] = [];
+      }
+
+      // Step 5: Return response
       return response;
+
     } on PostgrestException catch (e) {
       throw _handlePostgrestError(e);
     } catch (e) {

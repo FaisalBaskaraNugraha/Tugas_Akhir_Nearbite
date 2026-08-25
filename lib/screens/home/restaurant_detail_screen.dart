@@ -1,11 +1,6 @@
-// FILE: lib/screens/home/restaurant_detail_screen.dart
-// FUNGSI: Halaman Detail Restoran + Daftar Menu
-// CARA KERJA:
-// 1. Terima restaurantId dari parameter
-// 2. Panggil RestaurantService.getRestaurantDetail()
-// 3. Tampilkan informasi restoran (nama, deskripsi, alamat, jam, jarak)
-// 4. Tampilkan daftar menu dalam ListView
-// 5. State: loading, success, error + retry
+// ============================================================
+// PERBAIKAN: RestaurantDetailScreen
+// ============================================================
 
 import 'package:flutter/material.dart';
 import '../../models/restaurant_model.dart';
@@ -31,7 +26,6 @@ class RestaurantDetailScreen extends StatefulWidget {
 }
 
 class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
-  // STATE
   RestaurantModel? _restaurant;
   List<MenuItemModel> _menuItems = [];
   bool _isLoading = true;
@@ -44,14 +38,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     _loadDetail();
   }
 
-  // 
-  // LOAD DETAIL
-  // 
-  // Cara kerja:
-  // 1. Set loading = true
-  // 2. Panggil service.getRestaurantDetail()
-  // 3. Parse response ke RestaurantModel dan List<MenuItemModel>
-  // 4. Hitung jarak jika posisi user tersedia
   Future<void> _loadDetail() async {
     setState(() {
       _isLoading = true;
@@ -72,7 +58,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           .map((item) => MenuItemModel.fromJson(item))
           .toList();
 
-      // Hitung jarak jika ada posisi user
+      // Hitung jarak
       if (widget.userLat != null && widget.userLon != null) {
         _distance = calculateDistance(
           widget.userLat!,
@@ -87,7 +73,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
       });
     } catch (e) {
       setState(() {
-        _error = e.toString();
+        _error = 'Gagal memuat detail: ${e.toString().replaceFirst('Exception: ', '')}';
         _isLoading = false;
       });
     }
@@ -105,16 +91,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // 
-  // BUILD BODY
-  // 
   Widget _buildBody() {
-    // 1. STATE LOADING
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    // 2. STATE ERROR
     if (_error != null) {
       return Center(
         child: Column(
@@ -144,12 +125,10 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
       );
     }
 
-    // 3. STATE EMPTY
     if (_restaurant == null) {
       return const Center(child: Text('Restoran tidak ditemukan'));
     }
 
-    // 4. STATE SUCCESS
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -166,9 +145,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // 
-  // PHOTO SECTION
-  // 
   Widget _buildPhotoSection() {
     return Container(
       width: double.infinity,
@@ -203,9 +179,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // 
-  // INFO SECTION
-  // 
   Widget _buildInfoSection() {
     return Card(
       child: Padding(
@@ -213,7 +186,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Nama
             Text(
               _restaurant!.name,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -221,15 +193,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                   ),
             ),
             const SizedBox(height: 8),
-
-            // Deskripsi
             Text(
               _restaurant!.description,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 12),
-
-            // Alamat
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -244,8 +212,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
               ],
             ),
             const SizedBox(height: 8),
-
-            // Jam buka
             Row(
               children: [
                 Icon(Icons.access_time, size: 18, color: Colors.grey[600]),
@@ -256,10 +222,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-
-            // Jarak
             if (_distance != null) ...[
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Icon(Icons.directions_walk, size: 18, color: Colors.grey[600]),
@@ -274,8 +238,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                 ],
               ),
             ],
-
-            // Koordinat (debug)
             const SizedBox(height: 8),
             Text(
               '📍 ${_restaurant!.latitude}, ${_restaurant!.longitude}',
@@ -289,9 +251,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // 
-  // MENU SECTION
-  // 
   Widget _buildMenuSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,7 +273,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           ],
         ),
         const SizedBox(height: 12),
-
         if (_menuItems.isEmpty)
           Center(
             child: Padding(
@@ -340,9 +298,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // 
-  // MENU ITEM WIDGET
-  // 
   Widget _buildMenuItem(MenuItemModel menu) {
     return ListTile(
       contentPadding: EdgeInsets.zero,

@@ -1,27 +1,26 @@
-// 
 // UNIT: Konfigurasi Supabase
 // FILE: lib/config/supabase_config.dart
-// 
+// ============================================================
 // CARA KERJA:
 // 1. Class ini bertugas menyimpan dan menginisialisasi koneksi ke Supabase
 // 2. Prioritas: --dart-define > .env > default
 // 3. Tidak ada hardcode credentials di source code (sesuai requirement)
 // 4. initialize() dipanggil di main() sebelum aplikasi berjalan
 // 5. Jika credentials tidak valid, throw exception
-
+// ============================================================
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseConfig {
-  // 
+  // ============================================================
   // GETTER: supabaseUrl
   // CARA KERJA:
   // 1. Coba dari --dart-define (prioritas utama)
   // 2. Jika tidak ada, coba dari .env
   // 3. Jika tidak ada, return default (akan dianggap error)
   // 4. Tidak ada hardcode credentials
-  // 
+  // ============================================================
   static String get supabaseUrl {
     // Prioritas 1: --dart-define
     const fromDefine = String.fromEnvironment(
@@ -38,14 +37,14 @@ class SupabaseConfig {
     return 'https://YOUR_PROJECT.supabase.co';
   }
 
-  // 
+  // ============================================================
   // GETTER: supabaseAnonKey
   // CARA KERJA:
   // 1. Coba dari --dart-define (prioritas utama)
   // 2. Jika tidak ada, coba dari .env
   // 3. Jika tidak ada, return default (akan dianggap error)
   // 4. Tidak ada hardcode credentials
-  // 
+  // ============================================================
   static String get supabaseAnonKey {
     // Prioritas 1: --dart-define
     const fromDefine = String.fromEnvironment(
@@ -62,7 +61,7 @@ class SupabaseConfig {
     return 'YOUR_ANON_KEY';
   }
 
-  // 
+  // ============================================================
   // METHOD: initialize()
   // CARA KERJA:
   // 1. Ambil credentials dari getter (prioritas: --dart-define > .env)
@@ -70,7 +69,7 @@ class SupabaseConfig {
   // 3. Jika valid, inisialisasi Supabase dengan publishableKey
   // 4. publishableKey adalah pengganti anonKey (tidak deprecated)
   // 5. Hanya dipanggil SEKALI di main()
-  // 
+  // ============================================================
   static Future<void> initialize() async {
     final url = supabaseUrl;
     final key = supabaseAnonKey;

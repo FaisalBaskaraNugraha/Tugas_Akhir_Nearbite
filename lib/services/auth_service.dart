@@ -53,7 +53,7 @@ class AuthService extends ChangeNotifier {
     final response = await _supabase.auth.signUp(
       email: email,
       password: password,
-      data: {'full_name': fullName}, // 👈 Dipakai trigger di Supabase
+      data: {'full_name': fullName}, // 
     );
     notifyListeners();
     return response;
