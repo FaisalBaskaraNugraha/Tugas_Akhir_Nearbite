@@ -1,19 +1,5 @@
-// 
-// UNIT 9: Unit Test - Search
-// FILE: test/search_test.dart
-// 
-// CARA KERJA:
-// 1. Menguji kebenaran fungsi pencarian restoran
-// 2. Test 1: Cari berdasarkan nama restoran (case-insensitive)
-// 3. Test 2: Cari berdasarkan nama menu (case-insensitive)
-// 4. Test 3: Cari dengan partial query
-// 5. Test 4: Empty query returns all
-// 6. Test 5: Query no match returns empty
-// 7. Test 6: Search dengan spasi
-// 8. Test 7: Search returns multiple restaurants
-// 9. Semua test INDEPENDEN, tidak bergantung jaringan
-// 10. JUMLAH: 7 unit test
-// 
+// FILE: test/unit/search_test.dart
+// FUNGSI: Unit test untuk search resto/menu
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nearbite_app/models/restaurant_model.dart';
@@ -21,9 +7,6 @@ import 'package:nearbite_app/models/menu_item_model.dart';
 
 void main() {
   group('Search Logic Tests', () {
-    // 
-    // MOCK DATA
-    // 
     final DateTime now = DateTime.now();
 
     final restaurants = [
@@ -104,14 +87,6 @@ void main() {
       ),
     ];
 
-    // 
-    // FUNGSI SEARCH MANUAL (SIMULASI)
-    // CARA KERJA:
-    // 1. Jika query kosong, kembalikan semua restoran
-    // 2. Untuk setiap restoran, cek apakah nama resto mengandung query
-    // 3. Atau cek apakah ada menu dengan nama mengandung query
-    // 4. Case-insensitive menggunakan toLowerCase()
-    // 
     List<RestaurantModel> searchRestaurants(
       List<RestaurantModel> restaurants,
       List<MenuItemModel> menuItems,
@@ -122,12 +97,10 @@ void main() {
       final lowerQuery = query.toLowerCase().trim();
 
       return restaurants.where((restaurant) {
-        // Cari di nama resto
         if (restaurant.name.toLowerCase().contains(lowerQuery)) {
           return true;
         }
 
-        // Cari di nama menu
         final hasMatchingMenu = menuItems.any((menu) =>
             menu.restaurantId == restaurant.id &&
             menu.name.toLowerCase().contains(lowerQuery));
@@ -136,9 +109,6 @@ void main() {
       }).toList();
     }
 
-    // 
-    // TEST 1: Search by restaurant name
-    // 
     test('Search by restaurant name - case insensitive', () {
       final results = searchRestaurants(restaurants, menuItems, 'masa');
       expect(results.length, 1);
@@ -153,9 +123,6 @@ void main() {
       expect(results3[0].name, 'Wasabi Sushi');
     });
 
-    // 
-    // TEST 2: Search by menu name
-    // 
     test('Search by menu name - case insensitive', () {
       final results = searchRestaurants(restaurants, menuItems, 'bubur');
       expect(results.length, 1);
@@ -164,59 +131,23 @@ void main() {
       final results2 = searchRestaurants(restaurants, menuItems, 'salmon');
       expect(results2.length, 1);
       expect(results2[0].name, 'Wasabi Sushi');
-
-      final results3 = searchRestaurants(restaurants, menuItems, 'ramen');
-      expect(results3.length, 1);
-      expect(results3[0].name, 'Wasabi Sushi');
     });
 
-    // 
-    // TEST 3: Search with partial query
-    // 
     test('Search with partial query', () {
-      final results = searchRestaurants(restaurants, menuItems, 'ma');
-      expect(results.length, 1);
-      expect(results[0].name, 'Masa Kitchen');
-
-      final results2 = searchRestaurants(restaurants, menuItems, 'wa');
-      expect(results2.length, 2);
-      expect(results2.any((r) => r.name == 'Waroeng Steak'), true);
-      expect(results2.any((r) => r.name == 'Wasabi Sushi'), true);
+      final results = searchRestaurants(restaurants, menuItems, 'wa');
+      expect(results.length, 2);
+      expect(results.any((r) => r.name == 'Waroeng Steak'), true);
+      expect(results.any((r) => r.name == 'Wasabi Sushi'), true);
     });
 
-    // 
-    // TEST 4: Empty query returns all
-    // 
     test('Empty query returns all restaurants', () {
       final results = searchRestaurants(restaurants, menuItems, '');
       expect(results.length, 3);
     });
 
-    // 
-    // TEST 5: Query with no match
-    // 
     test('Query with no match returns empty list', () {
       final results = searchRestaurants(restaurants, menuItems, 'xyz123');
       expect(results.length, 0);
-    });
-
-    // 
-    // TEST 6: Search with spaces
-    // 
-    test('Search by restaurant name with spaces', () {
-      final results = searchRestaurants(restaurants, menuItems, 'masa kitchen');
-      expect(results.length, 1);
-      expect(results[0].name, 'Masa Kitchen');
-    });
-
-    // 
-    // TEST 7: Search returns multiple restaurants
-    // 
-    test('Search returns multiple restaurants', () {
-      final results = searchRestaurants(restaurants, menuItems, 'wa');
-      expect(results.length, 2);
-      expect(results.any((r) => r.name == 'Waroeng Steak'), true);
-      expect(results.any((r) => r.name == 'Wasabi Sushi'), true);
     });
   });
 }

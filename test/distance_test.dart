@@ -1,7 +1,7 @@
-// ============================================================
+// 
 // UNIT 8: Unit Test - Haversine & Sorting
 // FILE: test/distance_test.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Menguji kebenaran fungsi Haversine dan sorting
 // 2. Test 1-5: Verifikasi akurasi perhitungan jarak
@@ -10,7 +10,7 @@
 // 5. Semua test INDEPENDEN, tidak bergantung jaringan/internet
 // 6. Menggunakan mock data, bukan server sungguhan
 // 7. JUMLAH: 16 unit test (≥3 sesuai requirement)
-// ============================================================
+// 
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nearbite_app/models/restaurant_model.dart';
@@ -18,16 +18,16 @@ import 'package:nearbite_app/utils/distance_utils.dart';
 import 'package:nearbite_app/utils/sort_utils.dart';
 
 void main() {
-  // ============================================================
+  // 
   // GROUP 1: HAVERSINE DISTANCE ACCURACY (Test 1-5)
-  // ============================================================
+  // 
   // CARA KERJA:
   // 1. Test 1: Jarak ke titik yang sama harus 0
   // 2. Test 2: Jarak Semarang-Jakarta sekitar 450 km
   // 3. Test 3: Jarak Semarang-Surabaya sekitar 260 km
   // 4. Test 4: Jarak 2 restoran di Semarang sekitar 0.23 km
   // 5. Test 5: Jarak 2 restoran di Semarang sekitar 0.8 km
-  // ============================================================
+  // 
   
   group('Haversine Distance Tests', () {
     const double semarangLat = -6.979026;
@@ -97,9 +97,9 @@ void main() {
       expect(distance, lessThan(1.2));
     });
 
-    // ============================================================
+    // 
     // GROUP 2: DISTANCE FORMATTING (Test 6-11)
-    // ============================================================
+    // 
     // CARA KERJA:
     // 1. Test 6: 0 km → "0 m"
     // 2. Test 7: 0.05 km → "50 m"
@@ -107,7 +107,7 @@ void main() {
     // 4. Test 9: 0.5 km → "500 m"
     // 5. Test 10: 1.2 km → "1.2 km"
     // 6. Test 11: 10.5 km → "10.5 km"
-    // ============================================================
+    // 
     
     test('Format jarak - 0 meter', () {
       expect(formatDistance(0.0), '0 m');
@@ -134,9 +134,9 @@ void main() {
     });
   });
 
-  // ============================================================
+  // 
   // GROUP 3: SORTING AND FILTERING (Test 12-16)
-  // ============================================================
+  // 
   // CARA KERJA:
   // 1. Buat mock data dengan 3 restoran: Jauh, Dekat, Sedang
   // 2. Test 12: Sorting dari terdekat ke terjauh
@@ -144,7 +144,7 @@ void main() {
   // 4. Test 14: Menambahkan field jarak
   // 5. Test 15: Menemukan restoran terdekat
   // 6. Test 16: Menghitung jarak rata-rata
-  // ============================================================
+  // 
   
   group('Sorting Tests', () {
     final DateTime now = DateTime.now();

@@ -1,33 +1,42 @@
-// ============================================================
-// UNIT: Service Restoran + Cache Fallback + CRUD Menu
 // FILE: lib/services/restaurant_service.dart
-// ============================================================
-// CARA KERJA:
-// 1. Class ini mengelola semua operasi data restoran dan menu
-// 2. Jembatan antara UI dan Supabase database
-// 3. RESTAURANT: get, getNearby, search, getOwner, create, update, delete
-// 4. MENU: create, update, delete
-// 5. Cache fallback untuk offline mode
-// ============================================================
+// FUNGSI: Service dengan error handling menggunakan ApiError
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/restaurant_model.dart';
+import '../models/api_error.dart';
 import '../utils/distance_utils.dart';
 import '../utils/sort_utils.dart';
 import 'cache_service.dart';
+import 'api_client.dart';
 
 class RestaurantService {
-  // Koneksi ke Supabase
   final SupabaseClient _supabase = Supabase.instance.client;
-  
-  // Cache service untuk fallback offline
   final CacheService _cache = CacheService();
 
-  // ============================================================
-  // RESTAURANT METHODS
-  // ============================================================
+  // 
+  // HELPER: Konversi PostgrestException ke ApiError
+  // 
+  ApiError _handlePostgrestError(PostgrestException e) {
+    int statusCode = 500;
+    try {
+      statusCode = int.parse(e.code ?? '');
+    } catch (_) {
+      statusCode = 500;
+    }
+    // e.message sudah String?, langsung kirim ke fromStatusCode
+    return ApiErrorMapper.fromStatusCode(statusCode, message: e.message);
+  }
 
-  // GET ALL RESTAURANTS
+  // 
+  // HELPER: Handle error umum
+  // 
+  ApiError _handleGeneralError(Object e) {
+    return ApiErrorMapper.fromException(e);
+  }
+
+  // 
+  // METHOD: getRestaurants()
+  // 
   Future<List<RestaurantModel>> getRestaurants() async {
     try {
       final response = await _supabase
@@ -38,17 +47,27 @@ class RestaurantService {
       return (response as List)
           .map((item) => RestaurantModel.fromJson(item))
           .toList();
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to load restaurants: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // GET RESTAURANTS WITH FALLBACK
+  // 
+  // METHOD: getRestaurantsWithFallback()
+  // 
   Future<List<RestaurantModel>> getRestaurantsWithFallback() async {
     try {
       final restaurants = await getRestaurants();
       await _cache.saveRestaurants(restaurants);
       return restaurants;
+    } on ApiError {
+      final cached = await _cache.getRestaurants();
+      if (cached.isNotEmpty) {
+        return cached;
+      }
+      return _cache.getFixtureRestaurants();
     } catch (e) {
       final cached = await _cache.getRestaurants();
       if (cached.isNotEmpty) {
@@ -58,7 +77,9 @@ class RestaurantService {
     }
   }
 
-  // GET NEARBY RESTAURANTS
+  // 
+  // METHOD: getNearbyRestaurants()
+  // 
   Future<List<RestaurantModel>> getNearbyRestaurants({
     required double userLat,
     required double userLon,
@@ -83,12 +104,16 @@ class RestaurantService {
           distanceText: formatDistance(distance),
         );
       }).toList();
+    } on ApiError {
+      rethrow;
     } catch (e) {
-      throw Exception('Failed to load nearby restaurants: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // GET NEARBY RESTAURANTS WITH FALLBACK
+  // 
+  // METHOD: getNearbyRestaurantsWithFallback()
+  // 
   Future<List<RestaurantModel>> getNearbyRestaurantsWithFallback({
     required double userLat,
     required double userLon,
@@ -130,7 +155,9 @@ class RestaurantService {
     }
   }
 
-  // GET RESTAURANT DETAIL + MENU
+  // 
+  // METHOD: getRestaurantDetail()
+  // 
   Future<Map<String, dynamic>> getRestaurantDetail(String restaurantId) async {
     try {
       final response = await _supabase
@@ -140,12 +167,16 @@ class RestaurantService {
           .single();
 
       return response;
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to load restaurant detail: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // SEARCH RESTAURANTS
+  // 
+  // METHOD: searchRestaurants()
+  // 
   Future<List<RestaurantModel>> searchRestaurants(String query) async {
     try {
       if (query.trim().isEmpty) {
@@ -158,12 +189,16 @@ class RestaurantService {
       return (response as List)
           .map((item) => RestaurantModel.fromJson(item))
           .toList();
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to search restaurants: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // SEARCH RESTAURANTS WITH DISTANCE
+  // 
+  // METHOD: searchRestaurantsWithDistance()
+  // 
   Future<List<RestaurantModel>> searchRestaurantsWithDistance({
     required String query,
     required double userLat,
@@ -184,12 +219,16 @@ class RestaurantService {
           distanceText: formatDistance(distance),
         );
       }).toList();
+    } on ApiError {
+      rethrow;
     } catch (e) {
-      throw Exception('Failed to search restaurants with distance: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // GET OWNER RESTAURANTS
+  // 
+  // METHOD: getOwnerRestaurants()
+  // 
   Future<List<RestaurantModel>> getOwnerRestaurants(String ownerId) async {
     try {
       final response = await _supabase
@@ -201,21 +240,29 @@ class RestaurantService {
       return (response as List)
           .map((item) => RestaurantModel.fromJson(item))
           .toList();
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to load owner restaurants: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // CREATE RESTAURANT
+  // 
+  // METHOD: createRestaurant()
+  // 
   Future<void> createRestaurant(Map<String, dynamic> data) async {
     try {
       await _supabase.from('restaurants').insert(data);
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to create restaurant: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // UPDATE RESTAURANT
+  // 
+  // METHOD: updateRestaurant()
+  // 
   Future<void> updateRestaurant({
     required String id,
     required Map<String, dynamic> data,
@@ -225,37 +272,33 @@ class RestaurantService {
           .from('restaurants')
           .update(data)
           .eq('id', id);
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to update restaurant: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // DELETE RESTAURANT
+  // 
+  // METHOD: deleteRestaurant()
+  // 
   Future<void> deleteRestaurant(String id) async {
     try {
       await _supabase
           .from('restaurants')
           .delete()
           .eq('id', id);
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to delete restaurant: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // ============================================================
-  // MENU ITEM METHODS (CRUD)
-  // ============================================================
+  // 
+  // MENU CRUD METHODS
+  // 
 
-  // ============================================================
-  // METHOD: createMenuItem()
-  // CARA KERJA:
-  // 1. Insert data ke tabel menu_items
-  // 2. Field: restaurant_id, name, description, price, is_available
-  // 3. is_available default true
-  // 4. Jika berhasil, tidak ada return value
-  // 5. Jika gagal, lempar exception
-  // 6. Dipanggil di AddMenuScreen
-  // ============================================================
   Future<void> createMenuItem({
     required String restaurantId,
     required String name,
@@ -270,20 +313,13 @@ class RestaurantService {
         'price': price,
         'is_available': true,
       });
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to create menu item: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // ============================================================
-  // METHOD: updateMenuItem()
-  // CARA KERJA:
-  // 1. Update data di tabel menu_items berdasarkan id
-  // 2. Field: name, description, price, is_available
-  // 3. Jika berhasil, tidak ada return value
-  // 4. Jika gagal, lempar exception
-  // 5. Dipanggil di EditMenuScreen
-  // ============================================================
   Future<void> updateMenuItem({
     required String id,
     required String name,
@@ -301,27 +337,23 @@ class RestaurantService {
             'is_available': isAvailable,
           })
           .eq('id', id);
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to update menu item: $e');
+      throw _handleGeneralError(e);
     }
   }
 
-  // ============================================================
-  // METHOD: deleteMenuItem()
-  // CARA KERJA:
-  // 1. Delete data dari tabel menu_items berdasarkan id
-  // 2. Jika berhasil, tidak ada return value
-  // 3. Jika gagal, lempar exception
-  // 4. Dipanggil di ManageMenuScreen
-  // ============================================================
   Future<void> deleteMenuItem(String id) async {
     try {
       await _supabase
           .from('menu_items')
           .delete()
           .eq('id', id);
+    } on PostgrestException catch (e) {
+      throw _handlePostgrestError(e);
     } catch (e) {
-      throw Exception('Failed to delete menu item: $e');
+      throw _handleGeneralError(e);
     }
   }
 }

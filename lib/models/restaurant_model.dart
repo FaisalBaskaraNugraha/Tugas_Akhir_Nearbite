@@ -1,7 +1,7 @@
-// ============================================================
+// 
 // UNIT 4: Model Restoran
 // FILE: lib/models/restaurant_model.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Merepresentasikan data restoran dari database
 // 2. Field utama sesuai dengan kolom di tabel restaurants
@@ -9,12 +9,12 @@
 // 4. fromJson(): mengubah JSON Supabase → object Dart
 // 5. toJson(): mengubah object Dart → Map untuk insert/update
 // 6. copyWith(): membuat clone dengan perubahan field tertentu
-// ============================================================
+// 
 
 class RestaurantModel {
-  // ============================================================
+  // 
   // FIELD: Data dari database (WAJIB)
-  // ============================================================
+  // 
   final String id;          // UUID primary key
   final String ownerId;     // foreign key ke users.id
   final String name;        // nama restoran
@@ -27,19 +27,19 @@ class RestaurantModel {
   final DateTime createdAt; // waktu dibuat di database
   final DateTime updatedAt; // waktu terakhir update
 
-  // ============================================================
+  // 
   // FIELD: Tambahan untuk UI (OPSIONAL)
-  // ============================================================
+  // 
   final double? distance;     // jarak dalam km (nullable)
   final String? distanceText; // jarak terformat (nullable)
 
-  // ============================================================
+  // 
   // KONSTRUKTOR
   // CARA KERJA:
   // 1. Semua field utama WAJIB diisi (required)
   // 2. Field opsional boleh null
   // 3. Dipanggil saat membuat object RestaurantModel
-  // ============================================================
+  // 
   RestaurantModel({
     required this.id,
     required this.ownerId,
@@ -56,7 +56,7 @@ class RestaurantModel {
     this.distanceText,
   });
 
-  // ============================================================
+  // 
   // FACTORY: fromJson()
   // CARA KERJA:
   // 1. Terima Map<String, dynamic> dari response Supabase
@@ -65,7 +65,7 @@ class RestaurantModel {
   // 4. Jika field null, beri default value
   // 5. Kembalikan object RestaurantModel
   // 6. Dipanggil di RestaurantService setelah menerima response
-  // ============================================================
+  // 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) {
     return RestaurantModel(
       id: json['id'].toString(),
@@ -82,14 +82,14 @@ class RestaurantModel {
     );
   }
 
-  // ============================================================
+  // 
   // METHOD: copyWith()
   // CARA KERJA:
   // 1. Membuat clone object dengan perubahan field tertentu
   // 2. Field yang tidak disebutkan tetap pakai nilai lama
   // 3. Berguna untuk mengupdate 1-2 field tanpa membuat ulang semua
   // 4. Contoh: restaurant.copyWith(distance: 1.5)
-  // ============================================================
+  // 
   RestaurantModel copyWith({
     String? id,
     String? ownerId,
@@ -122,14 +122,14 @@ class RestaurantModel {
     );
   }
 
-  // ============================================================
+  // 
   // METHOD: toJson()
   // CARA KERJA:
   // 1. Mengubah object menjadi Map<String, dynamic>
   // 2. Hanya field yang ada di database yang dimasukkan
   // 3. distance dan distanceText TIDAK dimasukkan (hanya untuk UI)
   // 4. Dipakai untuk insert/update ke Supabase
-  // ============================================================
+  // 
   Map<String, dynamic> toJson() {
     return {
       'owner_id': ownerId,
@@ -143,13 +143,13 @@ class RestaurantModel {
     };
   }
 
-  // ============================================================
+  // 
   // GETTER: distanceDisplay
   // CARA KERJA:
   // 1. Jika distance dan distanceText tersedia, tampilkan distanceText
   // 2. Jika tidak, tampilkan "Lokasi tidak diketahui"
   // 3. Dipakai di UI untuk menampilkan jarak
-  // ============================================================
+  // 
   String get distanceDisplay {
     if (distance != null && distanceText != null) {
       return distanceText!;
@@ -157,12 +157,12 @@ class RestaurantModel {
     return 'Lokasi tidak diketahui';
   }
 
-  // ============================================================
+  // 
   // GETTER: hasDistance
   // CARA KERJA:
   // 1. Cek apakah field distance tidak null
   // 2. Return true jika ada, false jika tidak
   // 3. Dipakai di UI untuk conditional rendering
-  // ============================================================
+  // 
   bool get hasDistance => distance != null;
 }

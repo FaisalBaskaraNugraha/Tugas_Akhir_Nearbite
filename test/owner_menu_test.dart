@@ -1,7 +1,7 @@
-// ============================================================
+// 
 // UNIT: Owner & Menu CRUD Tests
 // FILE: test/owner_menu_test.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Menguji logika CRUD restoran dan menu tanpa jaringan
 // 2. Test 1: Validasi form nama restoran
@@ -14,21 +14,21 @@
 // 9. Test 8: MenuItemModel copyWith
 // 10. Test 9: Validasi nama menu
 // 11. Test 10: Filter menu berdasarkan ketersediaan
-// ============================================================
+// 
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nearbite_app/models/restaurant_model.dart';
 import 'package:nearbite_app/models/menu_item_model.dart';
 
 void main() {
-  // ============================================================
+  // 
   // GROUP 1: FORM VALIDATION TESTS
-  // ============================================================
+  // 
   
   group('Form Validation Tests', () {
-    // ============================================================
+    // 
     // TEST 1: Validasi Nama Restoran
-    // ============================================================
+    // 
     test('Nama restoran validasi', () {
       String? validateName(String? value) {
         if (value == null || value.isEmpty) {
@@ -47,9 +47,9 @@ void main() {
       expect(validateName('Resto'), null);
     });
 
-    // ============================================================
+    // 
     // TEST 2: Validasi Koordinat
-    // ============================================================
+    // 
     test('Koordinat validasi', () {
       String? validateLatitude(String? value) {
         if (value == null || value.isEmpty) {
@@ -98,9 +98,9 @@ void main() {
       expect(validateLongitude('0'), null);
     });
 
-    // ============================================================
+    // 
     // TEST 3: Validasi Harga Menu
-    // ============================================================
+    // 
     test('Harga menu validasi', () {
       String? validatePrice(String? value) {
         if (value == null || value.isEmpty) {
@@ -125,9 +125,9 @@ void main() {
       expect(validatePrice('0'), null);
     });
 
-    // ============================================================
+    // 
     // TEST 4: Validasi Nama Menu
-    // ============================================================
+    // 
     test('Nama menu validasi', () {
       String? validateMenuName(String? value) {
         if (value == null || value.isEmpty) {
@@ -142,16 +142,16 @@ void main() {
     });
   });
 
-  // ============================================================
+  // 
   // GROUP 2: RESTAURANT MODEL TESTS
-  // ============================================================
+  // 
   
   group('Restaurant Model Tests', () {
     final DateTime now = DateTime.now();
 
-    // ============================================================
+    // 
     // TEST 5: RestaurantModel fromJson
-    // ============================================================
+    // 
     test('RestaurantModel fromJson', () {
       final json = {
         'id': '123',
@@ -175,9 +175,9 @@ void main() {
       expect(restaurant.longitude, 110.411453);
     });
 
-    // ============================================================
+    // 
     // TEST 6: RestaurantModel toJson
-    // ============================================================
+    // 
     test('RestaurantModel toJson', () {
       final restaurant = RestaurantModel(
         id: '1',
@@ -200,9 +200,9 @@ void main() {
       expect(json['open_hours'], '08:00-17:00');
     });
 
-    // ============================================================
+    // 
     // TEST 7: RestaurantModel copyWith
-    // ============================================================
+    // 
     test('RestaurantModel copyWith', () {
       final restaurant = RestaurantModel(
         id: '1',
@@ -232,16 +232,16 @@ void main() {
     });
   });
 
-  // ============================================================
+  // 
   // GROUP 3: MENU MODEL TESTS
-  // ============================================================
+  // 
   
   group('Menu Model Tests', () {
     final DateTime now = DateTime.now();
 
-    // ============================================================
+    // 
     // TEST 8: MenuItemModel fromJson
-    // ============================================================
+    // 
     test('MenuItemModel fromJson', () {
       final json = {
         'id': 'menu-1',
@@ -263,9 +263,9 @@ void main() {
       expect(menu.isAvailable, true);
     });
 
-    // ============================================================
+    // 
     // TEST 9: MenuItemModel toJson
-    // ============================================================
+    // 
     test('MenuItemModel toJson', () {
       final menu = MenuItemModel(
         id: '1',
@@ -284,9 +284,9 @@ void main() {
       expect(json['is_available'], true);
     });
 
-    // ============================================================
+    // 
     // TEST 10: MenuItemModel priceFormatted
-    // ============================================================
+    // 
     test('MenuItemModel priceFormatted - format harga ke Rupiah', () {
       // Harga 25000 → Rp25.000 (TANPA spasi)
       final menu1 = MenuItemModel(
@@ -337,9 +337,9 @@ void main() {
       expect(menu4.priceFormatted, 'Harga tersedia di restoran');
     });
 
-    // ============================================================
+    // 
     // TEST 11: MenuItemModel copyWith
-    // ============================================================
+    // 
     test('MenuItemModel copyWith', () {
       final menu = MenuItemModel(
         id: '1',
@@ -364,16 +364,16 @@ void main() {
     });
   });
 
-  // ============================================================
+  // 
   // GROUP 4: FILTER & SORT TESTS
-  // ============================================================
+  // 
   
   group('Filter & Sort Tests', () {
     final DateTime now = DateTime.now();
 
-    // ============================================================
+    // 
     // TEST 12: Filter menu berdasarkan ketersediaan
-    // ============================================================
+    // 
     test('Filter menu berdasarkan ketersediaan', () {
       final menus = [
         MenuItemModel(
@@ -415,9 +415,9 @@ void main() {
       expect(unavailable[0].name, 'Menu 2');
     });
 
-    // ============================================================
+    // 
     // TEST 13: Sort menu berdasarkan harga
-    // ============================================================
+    // 
     test('Sort menu berdasarkan harga (termurah ke termahal)', () {
       final menus = [
         MenuItemModel(

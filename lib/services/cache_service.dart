@@ -1,13 +1,13 @@
-// ============================================================
+// 
 // UNIT: Cache Service
 // FILE: lib/services/cache_service.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Menyimpan dan mengambil data ke SharedPreferences
 // 2. Data disimpan sebagai JSON string
 // 3. Dipakai sebagai fallback ketika jaringan mati
 // 4. Data seed 8 resto disimpan sebagai fixture darurat
-// ============================================================
+// 
 
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,18 +20,18 @@ class CacheService {
 
   CacheService({SharedPreferences? prefs}) : _prefs = prefs;
 
-  // ============================================================
+  // 
   // METHOD: _getPrefs()
   // CARA KERJA: Ambil instance SharedPreferences
-  // ============================================================
+  // 
   Future<SharedPreferences> _getPrefs() async {
     return _prefs ?? await SharedPreferences.getInstance();
   }
 
-  // ============================================================
+  // 
   // METHOD: saveRestaurants()
   // CARA KERJA: Simpan daftar restoran ke cache
-  // ============================================================
+  // 
   Future<void> saveRestaurants(List<RestaurantModel> restaurants) async {
     try {
       final prefs = await _getPrefs();
@@ -43,10 +43,10 @@ class CacheService {
     }
   }
 
-  // ============================================================
+  // 
   // METHOD: getRestaurants()
   // CARA KERJA: Ambil daftar restoran dari cache
-  // ============================================================
+  // 
   Future<List<RestaurantModel>> getRestaurants() async {
     try {
       final prefs = await _getPrefs();
@@ -65,22 +65,22 @@ class CacheService {
     }
   }
 
-  // ============================================================
+  // 
   // METHOD: clearCache()
   // CARA KERJA: Hapus semua cache
-  // ============================================================
+  // 
   Future<void> clearCache() async {
     final prefs = await _getPrefs();
     await prefs.remove(_restaurantsKey);
   }
 
-  // ============================================================
+  // 
   // METHOD: getFixtureRestaurants()
   // CARA KERJA:
   // 1. Digunakan ketika cache kosong atau error
   // 2. Data seed 8 restoran dengan koordinat tersebar
   // 3. Data ini dari seed yang sudah dibuat di database
-  // ============================================================
+  // 
   List<RestaurantModel> getFixtureRestaurants() {
     final now = DateTime.now();
     

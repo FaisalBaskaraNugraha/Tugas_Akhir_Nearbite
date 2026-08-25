@@ -36,7 +36,6 @@
             android:value="2" />
     </application>
 
-    <!-- QUERIES UNTUK TEXT PROCESSING -->
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT" />

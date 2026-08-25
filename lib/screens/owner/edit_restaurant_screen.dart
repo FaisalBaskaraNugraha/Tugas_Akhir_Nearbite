@@ -1,12 +1,12 @@
-// ============================================================
+// 
 // UNIT: Edit Restaurant
 // FILE: lib/screens/owner/edit_restaurant_screen.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Form untuk mengedit restoran yang sudah ada
 // 2. Field terisi otomatis dari data restoran
 // 3. Update ke database via RestaurantService.updateRestaurant()
-// ============================================================
+// 
 
 import 'package:flutter/material.dart';
 import '../../models/restaurant_model.dart';
@@ -63,9 +63,9 @@ class _EditRestaurantScreenState extends State<EditRestaurantScreen> {
     super.dispose();
   }
 
-  // ============================================================
+  // 
   // UPDATE RESTAURANT
-  // ============================================================
+  // 
   Future<void> _updateRestaurant() async {
     if (!_formKey.currentState!.validate()) return;
 

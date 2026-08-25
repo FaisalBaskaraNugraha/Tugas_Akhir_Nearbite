@@ -1,20 +1,20 @@
-// ============================================================
+// 
 // UNIT: Widget Test
 // FILE: test/widget_test.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Test sederhana untuk memverifikasi UI dasar
 // 2. TIDAK menggunakan Supabase (mock di-skip)
 // 3. Hanya verifikasi widget muncul
-// ============================================================
+// 
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  // ============================================================
+  // 
   // TEST: Aplikasi bisa dijalankan (tanpa Supabase)
-  // ============================================================
+  // 
   testWidgets('App basic UI test', (WidgetTester tester) async {
     // Build widget sederhana tanpa Supabase
     await tester.pumpWidget(

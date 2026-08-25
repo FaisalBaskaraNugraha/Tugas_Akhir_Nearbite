@@ -5,6 +5,7 @@
 // 2. LocationDenied: user menolak izin
 // 3. LocationUnavailable: GPS mati / layanan tidak tersedia
 // 4. LocationPermanentlyDenied: user menolak permanen
+// 5. Semua case ditangani exhaustive (switch harus lengkap)
 
 import 'package:geolocator/geolocator.dart';
 

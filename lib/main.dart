@@ -1,14 +1,14 @@
-// ============================================================
+// 
 // FILE: lib/main.dart
 // FUNGSI: Entry point aplikasi
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Load .env file terlebih dahulu
 // 2. Inisialisasi Supabase
 // 3. Jalankan aplikasi dengan HomeScreen sebagai halaman utama
 // 4. HomeScreen TANPA LOGIN (mode pencari)
 // 5. Login/Register hanya untuk akses owner
-// ============================================================
+// 
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -20,14 +20,14 @@ import 'screens/home/home_screen.dart';
 import 'screens/owner/owner_dashboard.dart';
 import 'services/auth_service.dart';
 
-// ============================================================
+// 
 // main()
 // CARA KERJA:
 // 1. WidgetsFlutterBinding.ensureInitialized() - pastikan Flutter siap
 // 2. dotenv.load() - baca file .env
 // 3. SupabaseConfig.initialize() - koneksi ke Supabase
 // 4. runApp() - jalankan aplikasi
-// ============================================================
+// 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   

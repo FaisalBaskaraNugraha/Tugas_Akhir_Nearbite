@@ -1,13 +1,13 @@
-// ============================================================
+// 
 // UNIT: Add Restaurant
 // FILE: lib/screens/owner/add_restaurant_screen.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Form untuk menambah restoran baru
 // 2. Field: nama, deskripsi, alamat, jam buka, latitude, longitude
 // 3. Validasi: nama wajib (min 3), koordinat wajib
 // 4. Simpan ke database via RestaurantService.createRestaurant()
-// ============================================================
+// 
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,9 +44,9 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
     super.dispose();
   }
 
-  // ============================================================
+  // 
   // SAVE RESTAURANT
-  // ============================================================
+  // 
   Future<void> _saveRestaurant() async {
     if (!_formKey.currentState!.validate()) return;
 

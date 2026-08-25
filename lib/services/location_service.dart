@@ -5,6 +5,7 @@
 // 2. Memeriksa layanan GPS (aktif/tidak)
 // 3. Mengembalikan LocationResult (sealed)
 // 4. Tidak pernah crash, selalu return nilai
+// 5. Semua error ditangkap dan dikonversi ke LocationResult
 
 import 'package:geolocator/geolocator.dart';
 import '../models/location_result.dart';

@@ -1,7 +1,7 @@
-// ============================================================
+// 
 // UNIT: Owner Dashboard
 // FILE: lib/screens/owner/owner_dashboard.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Menampilkan daftar restoran milik owner yang login
 // 2. Tombol tambah resto baru (FAB)
@@ -9,7 +9,7 @@
 // 4. Navigasi ke AddRestaurantScreen, EditRestaurantScreen, ManageMenuScreen
 // 5. State: loading, error, empty, success
 // 6. Logout: hapus sesi dan kembali ke HomeScreen (mode pencari)
-// ============================================================
+// 
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,14 +38,14 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
     _loadRestaurants();
   }
 
-  // ============================================================
+  // 
   // LOAD RESTAURANTS
   // CARA KERJA:
   // 1. Ambil user ID dari AuthService
   // 2. Panggil RestaurantService.getOwnerRestaurants(userId)
   // 3. Jika berhasil, simpan ke _restaurants
   // 4. Jika gagal, tampilkan error
-  // ============================================================
+  // 
   Future<void> _loadRestaurants() async {
     setState(() {
       _isLoading = true;
@@ -79,13 +79,13 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
     }
   }
 
-  // ============================================================
+  // 
   // DELETE RESTAURANT
   // CARA KERJA:
   // 1. Tampilkan dialog konfirmasi
   // 2. Jika user konfirmasi, panggil deleteRestaurant()
   // 3. Reload data setelah berhasil
-  // ============================================================
+  // 
   Future<void> _deleteRestaurant(RestaurantModel restaurant) async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -133,13 +133,13 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
     }
   }
 
-  // ============================================================
+  // 
   // LOGOUT
   // CARA KERJA:
   // 1. Panggil AuthService.logout() → hapus sesi
   // 2. Navigasi ke HomeScreen (mode pencari)
   // 3. BUKAN ke LoginScreen (sesuai requirement)
-  // ============================================================
+  // 
   Future<void> _logout() async {
     final authService = Provider.of<AuthService>(context, listen: false);
     await authService.logout();
@@ -149,14 +149,14 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
     }
   }
 
-  // ============================================================
+  // 
   // OPTIONS MENU
   // CARA KERJA:
   // 1. Tampilkan bottom sheet dengan 3 opsi
   // 2. Edit: navigasi ke EditRestaurantScreen
   // 3. Menu: navigasi ke ManageMenuScreen
   // 4. Hapus: panggil _deleteRestaurant()
-  // ============================================================
+  // 
   void _showOptionsMenu(RestaurantModel restaurant) {
     showModalBottomSheet(
       context: context,
@@ -225,13 +225,13 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
             onPressed: _loadRestaurants,
             tooltip: 'Refresh',
           ),
-          // ============================================================
+          // 
           // TOMBOL LOGOUT
           // CARA KERJA:
           // 1. Panggil _logout()
           // 2. Hapus sesi dan kembali ke HomeScreen
           // 3. Sesuai requirement: logout → mode pencari
-          // ============================================================
+          // 
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: _logout,
@@ -256,14 +256,14 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
     );
   }
 
-  // ============================================================
+  // 
   // BUILD BODY
   // CARA KERJA:
   // 1. Jika loading, tampilkan CircularProgressIndicator
   // 2. Jika error, tampilkan pesan error + tombol retry
   // 3. Jika empty, tampilkan pesan tidak ada data + tombol tambah
   // 4. Jika success, tampilkan ListView restoran
-  // ============================================================
+  // 
   Widget _buildBody() {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -347,7 +347,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
     );
   }
 
-  // ============================================================
+  // 
   // RESTAURANT CARD
   // CARA KERJA:
   // 1. Tampilkan info restoran: nama, deskripsi, alamat, jam
@@ -355,7 +355,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
   // 3. Tombol Menu navigasi ke ManageMenuScreen
   // 4. Tombol Edit navigasi ke EditRestaurantScreen
   // 5. Tombol Hapus panggil _deleteRestaurant()
-  // ============================================================
+  // 
   Widget _buildRestaurantCard(RestaurantModel restaurant) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),

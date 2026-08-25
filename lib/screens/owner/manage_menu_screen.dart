@@ -1,14 +1,14 @@
-// ============================================================
+// 
 // UNIT: Manage Menu Screen
 // FILE: lib/screens/owner/manage_menu_screen.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Menampilkan daftar menu dari restoran tertentu
 // 2. Tombol tambah menu baru (FAB)
 // 3. Setiap menu: Edit dan Hapus
 // 4. Navigasi ke AddMenuScreen dan EditMenuScreen
 // 5. State: loading, error, empty, success
-// ============================================================
+// 
 
 import 'package:flutter/material.dart';
 import '../../models/menu_item_model.dart';
@@ -41,9 +41,9 @@ class _ManageMenuScreenState extends State<ManageMenuScreen> {
     _loadMenuItems();
   }
 
-  // ============================================================
+  // 
   // LOAD MENU ITEMS
-  // ============================================================
+  // 
   Future<void> _loadMenuItems() async {
     setState(() {
       _isLoading = true;
@@ -70,9 +70,9 @@ class _ManageMenuScreenState extends State<ManageMenuScreen> {
     }
   }
 
-  // ============================================================
+  // 
   // DELETE MENU ITEM
-  // ============================================================
+  // 
   Future<void> _deleteMenuItem(MenuItemModel menu) async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -154,9 +154,9 @@ class _ManageMenuScreenState extends State<ManageMenuScreen> {
     );
   }
 
-  // ============================================================
+  // 
   // BUILD BODY
-  // ============================================================
+  // 
   Widget _buildBody() {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -242,9 +242,9 @@ class _ManageMenuScreenState extends State<ManageMenuScreen> {
     );
   }
 
-  // ============================================================
+  // 
   // MENU ITEM CARD
-  // ============================================================
+  // 
   Widget _buildMenuItemCard(MenuItemModel menu) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),

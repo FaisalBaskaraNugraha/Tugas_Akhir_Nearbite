@@ -1,18 +1,18 @@
-// ============================================================
+// 
 // UNIT 3: Sorting Restoran Berdasarkan Jarak
 // FILE: lib/utils/sort_utils.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Mengurutkan daftar restoran dari yang terdekat
 // 2. Menggunakan fungsi Haversine untuk menghitung jarak
 // 3. Fungsi PURE - MUDAH DI-TEST
 // 4. Dipisah dari UI agar bisa di-unit-test (requirement B)
-// ============================================================
+// 
 
 import '../models/restaurant_model.dart';
 import 'distance_utils.dart';
 
-// ============================================================
+// 
 // FUNGSI: sortRestaurantsByDistance()
 // CARA KERJA:
 // 1. Terima daftar restoran dan posisi pengguna (userLat, userLon)
@@ -21,7 +21,7 @@ import 'distance_utils.dart';
 // 4. Bandingkan jarak: yang lebih kecil diletakkan di DEPAN (ascending)
 // 5. Kembalikan list yang sudah terurut dari terdekat ke terjauh
 // 6. Digunakan di HomeScreen untuk menampilkan resto terdekat
-// ============================================================
+// 
 List<RestaurantModel> sortRestaurantsByDistance(
   List<RestaurantModel> restaurants,
   double userLat,
@@ -55,7 +55,7 @@ List<RestaurantModel> sortRestaurantsByDistance(
   return sorted;
 }
 
-// ============================================================
+// 
 // FUNGSI: addDistanceToRestaurants()
 // CARA KERJA:
 // 1. Terima daftar restoran dan posisi pengguna
@@ -63,7 +63,7 @@ List<RestaurantModel> sortRestaurantsByDistance(
 // 3. Buat Map dengan 3 key: 'restaurant', 'distance', 'distanceText'
 // 4. Kembalikan List<Map> untuk digunakan di UI
 // 5. Berguna untuk menampilkan jarak di kartu restoran
-// ============================================================
+// 
 List<Map<String, dynamic>> addDistanceToRestaurants(
   List<RestaurantModel> restaurants,
   double userLat,
@@ -84,7 +84,7 @@ List<Map<String, dynamic>> addDistanceToRestaurants(
   }).toList();
 }
 
-// ============================================================
+// 
 // FUNGSI: filterRestaurantsByRadius()
 // CARA KERJA:
 // 1. Terima daftar restoran, posisi pengguna, dan radius (km)
@@ -92,7 +92,7 @@ List<Map<String, dynamic>> addDistanceToRestaurants(
 // 3. Jika jarak <= radius, masukkan ke hasil
 // 4. Kembalikan daftar restoran yang berada dalam radius
 // 5. Berguna untuk fitur "restoran dalam radius 5 km"
-// ============================================================
+// 
 List<RestaurantModel> filterRestaurantsByRadius(
   List<RestaurantModel> restaurants,
   double userLat,
@@ -110,7 +110,7 @@ List<RestaurantModel> filterRestaurantsByRadius(
   }).toList();
 }
 
-// ============================================================
+// 
 // FUNGSI: findNearestRestaurant()
 // CARA KERJA:
 // 1. Jika daftar kosong, return null
@@ -118,7 +118,7 @@ List<RestaurantModel> filterRestaurantsByRadius(
 // 3. Iterasi semua restoran, bandingkan jarak masing-masing
 // 4. Jika jarak lebih kecil, update kandidat
 // 5. Return restoran dengan jarak terkecil
-// ============================================================
+// 
 RestaurantModel? findNearestRestaurant(
   List<RestaurantModel> restaurants,
   double userLat,
@@ -150,14 +150,14 @@ RestaurantModel? findNearestRestaurant(
   return nearest;
 }
 
-// ============================================================
+// 
 // FUNGSI: calculateAverageDistance()
 // CARA KERJA:
 // 1. Jika daftar kosong, return 0.0
 // 2. Jumlahkan semua jarak dari posisi pengguna ke setiap restoran
 // 3. Bagi total dengan jumlah restoran
 // 4. Return jarak rata-rata (double)
-// ============================================================
+// 
 double calculateAverageDistance(
   List<RestaurantModel> restaurants,
   double userLat,

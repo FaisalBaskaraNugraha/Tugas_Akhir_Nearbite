@@ -1,13 +1,13 @@
-// ============================================================
+// 
 // UNIT: Model Menu Item
 // FILE: lib/models/menu_item_model.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Definisikan semua field sesuai kolom di tabel menu_items
 // 2. fromJson() - ubah JSON dari Supabase menjadi object Dart
 // 3. toJson() - ubah object Dart menjadi Map untuk insert/update
 // 4. priceFormatted - format harga ke Rupiah (tanpa spasi)
-// ============================================================
+// 
 
 class MenuItemModel {
   // FIELD UTAMA (dari database)
@@ -88,14 +88,14 @@ class MenuItemModel {
     };
   }
 
-  // ============================================================
+  // 
   // GETTER: priceFormatted
   // CARA KERJA:
   // 1. Jika price null, tampilkan "Harga tersedia di restoran"
   // 2. Jika price ada, format ke Rupiah dengan pemisah ribuan
   // 3. Contoh: 25000 → "Rp25.000" (TANPA spasi)
   // 4. Dipakai di UI untuk menampilkan harga
-  // ============================================================
+  // 
   String get priceFormatted {
     if (price == null) return 'Harga tersedia di restoran';
     return 'Rp${price!.toString().replaceAllMapped(

@@ -1,17 +1,17 @@
-// ============================================================
+// 
 // UNIT 2: Haversine Formula
 // FILE: lib/utils/distance_utils.dart
-// ============================================================
+// 
 // CARA KERJA:
 // 1. Menghitung jarak antara dua titik koordinat di bumi
 // 2. Menggunakan rumus Haversine - standar untuk jarak pendek hingga sedang
 // 3. Fungsi PURE (tidak bergantung state/context) - MUDAH DI-TEST
 // 4. Dipisah dari UI agar bisa di-unit-test (requirement B)
-// ============================================================
+// 
 
 import 'dart:math';
 
-// ============================================================
+// 
 // FUNGSI: calculateDistance()
 // CARA KERJA:
 // 1. Terima 4 parameter: lat1, lon1, lat2, lon2 (semua dalam derajat)
@@ -22,7 +22,7 @@ import 'dart:math';
 //    c = 2 * atan2(√a, √(1-a))
 //    jarak = radius_bumi * c (radius bumi = 6371 km)
 // 5. Kembalikan jarak dalam kilometer (double)
-// ============================================================
+// 
 double calculateDistance(
   double lat1,
   double lon1,
@@ -48,18 +48,18 @@ double calculateDistance(
   return earthRadius * c;
 }
 
-// ============================================================
+// 
 // FUNGSI: _toRadians()
 // CARA KERJA:
 // 1. Fungsi pembantu untuk konversi derajat ke radian
 // 2. Rumus: radian = derajat * π / 180
 // 3. Dipakai internal oleh calculateDistance()
-// ============================================================
+// 
 double _toRadians(double degree) {
   return degree * pi / 180;
 }
 
-// ============================================================
+// 
 // FUNGSI: formatDistance()
 // CARA KERJA:
 // 1. Mengubah jarak (km) menjadi string yang mudah dibaca manusia
@@ -67,7 +67,7 @@ double _toRadians(double degree) {
 // 3. Jika < 1 km → tampilkan dalam meter (contoh: "500 m")
 // 4. Jika >= 1 km → tampilkan dalam km dengan 1 desimal (contoh: "1.2 km")
 // 5. Dipakai di UI untuk menampilkan jarak ke pengguna
-// ============================================================
+// 
 String formatDistance(double distanceInKm) {
   if (distanceInKm < 0.1) {
     final int meters = (distanceInKm * 1000).round();

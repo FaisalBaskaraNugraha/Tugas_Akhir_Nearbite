@@ -44,9 +44,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     _loadDetail();
   }
 
-  // ============================================================
+  // 
   // LOAD DETAIL
-  // ============================================================
+  // 
   // Cara kerja:
   // 1. Set loading = true
   // 2. Panggil service.getRestaurantDetail()
@@ -105,9 +105,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // ============================================================
+  // 
   // BUILD BODY
-  // ============================================================
+  // 
   Widget _buildBody() {
     // 1. STATE LOADING
     if (_isLoading) {
@@ -166,9 +166,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // ============================================================
+  // 
   // PHOTO SECTION
-  // ============================================================
+  // 
   Widget _buildPhotoSection() {
     return Container(
       width: double.infinity,
@@ -203,9 +203,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // ============================================================
+  // 
   // INFO SECTION
-  // ============================================================
+  // 
   Widget _buildInfoSection() {
     return Card(
       child: Padding(
@@ -289,9 +289,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // ============================================================
+  // 
   // MENU SECTION
-  // ============================================================
+  // 
   Widget _buildMenuSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,9 +340,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  // ============================================================
+  // 
   // MENU ITEM WIDGET
-  // ============================================================
+  // 
   Widget _buildMenuItem(MenuItemModel menu) {
     return ListTile(
       contentPadding: EdgeInsets.zero,

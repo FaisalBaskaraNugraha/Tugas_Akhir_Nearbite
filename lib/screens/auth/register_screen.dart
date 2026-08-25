@@ -1,8 +1,8 @@
-// ============================================
+// 
 // FILE: lib/screens/auth/register_screen.dart
 // FUNGSI: Halaman Registrasi
 // ALUR: User input data → tekan Daftar → panggil AuthService.register()
-// ============================================
+// 
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
