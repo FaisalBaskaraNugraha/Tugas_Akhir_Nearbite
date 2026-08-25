@@ -1,0 +1,13 @@
+# ============================================================
+# FILE: .env
+# FUNGSI: Menyimpan konfigurasi rahasia untuk aplikasi
+# CARA KERJA:
+# 1. File ini TIDAK di-commit ke git (ada di .gitignore)
+# 2. Isi dengan credentials dari Supabase Dashboard
+# 3. Jangan pernah share file ini ke publik
+# ============================================================
+
+# SUPABASE CONFIGURATION
+# Ambil dari: Supabase Dashboard > Settings > API
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key-here
